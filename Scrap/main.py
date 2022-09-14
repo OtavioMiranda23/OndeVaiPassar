@@ -1,6 +1,7 @@
 from scrapLinksJogos import Scrap_Link
 from scrapTransmissoes import Scrap_Transmissao
 import time
+from jsonConverter import Json_Converter
 
 
 class Main():
@@ -12,19 +13,26 @@ class Main():
     linkParaJogosSulamericana = 'https://www.365scores.com/pt-br/football/south-america/copa-sudamericana/league/389'
 
     listaDoisLinks = []
+    i = 0
     verificadorEncontrouLink = False
-    while verificadorEncontrouLink == False:
+    while verificadorEncontrouLink == False & i < 8:
         try:
-            listaLinks = Scrap_Link().Montar_Link(linkParaJogosLibertadores)
+            listaLinks = Scrap_Link().Montar_Link(linkParaJogosBrasileirao)
             listaDoisLinks.append(listaLinks[0])
             listaDoisLinks.append(listaLinks[1])
 
             print(listaDoisLinks)
             verificadorEncontrouLink = True
             transmissoesSaida = Scrap_Transmissao().ExtrairTransmissao(listaDoisLinks)
+
         except IndexError as e:
-            print('Erro de index =>', e)
+            print('Erro de index nos links iniciais =>', e)
             time.sleep(5)
+            i += 1
+
+        transmissoesJson = Json_Converter(
+            'jsonScrap', 'Json_Transmissoes', transmissoesSaida)
+        transmissoesJson.EscreveJsonFile()
 
 
 if __name__ == '__main__':
