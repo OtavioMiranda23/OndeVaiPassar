@@ -17,6 +17,8 @@ class Scrap_Link:
         self.options.add_argument(f'user-agent={self.user_agent}')
         self.driver = webdriver.Chrome(
             "/Users/otaviomaior/Documents/chromedriver", chrome_options=self.options)
+        self.driver.maximize_window()
+
         self.wait = WebDriverWait(self.driver, 15)
         self.links = []
 
@@ -39,5 +41,5 @@ class Scrap_Link:
             self.links.append(linkCadaJogo)
 
         self.driver.close()
-        print(self.links)
+
         return self.links
